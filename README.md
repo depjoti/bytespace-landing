@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ByteSpace — Landing Page
 
-## Getting Started
+A responsive build of the **ByteSpace New** landing page from the
+[Figma design](https://www.figma.com/design/26TBgRjmpuxudcErJsHUfy/ByteSpace-New-Check-website?node-id=0-1),
+plus the bonus **Login** and **Register** pages.
 
-First, run the development server:
+**Stack:** Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS v4 · lucide-react
+
+## Getting started
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # production build
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Routes
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Route       | Page                                         |
+| ----------- | -------------------------------------------- |
+| `/`         | Landing page (all sections from the design)  |
+| `/login`    | Sign in (bonus)                              |
+| `/register` | Create an account (bonus)                    |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Project structure
 
-## Learn More
+```
+src/
+├─ app/                    # routes, root layout, global styles + design tokens
+├─ components/
+│  ├─ layout/              # Header (responsive nav), Footer, NewsletterForm
+│  ├─ sections/            # one component per landing-page section
+│  ├─ auth/                # AuthLayout, AuthForm, TextField, SocialLogin, AuthIllustration
+│  └─ ui/                  # reusable primitives: Button, Pill, Logo, SectionHeading, SearchBar, CourseCard
+└─ data/                   # typed content (courses, categories, testimonials, nav/footer links)
+```
 
-To learn more about Next.js, take a look at the following resources:
+Content lives in `src/data`, so sections are plain presentational components and new
+courses/testimonials can be added without touching markup.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Design system
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Tokens come straight from the Figma **Style Guide** page and are defined once in
+`src/app/globals.css` (`@theme`):
 
-## Deploy on Vercel
+- **Colors** — Neutral (Shuttle Gray 50–950), Primary (Persian Blue 50–950, brand `#003BE2`),
+  Secondary (Electric Lime 50–950, accent `#D4FB20`).
+- **Typography** — Poppins SemiBold for headings (72 / 44 / 36 / 20 px, 120%),
+  Satoshi for body and labels (18 / 16 / 14 / 12 px, 160%).
+- **Layout** — 12-column grid, 1200px content width (120px margins at 1440px).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Behaviour
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Category pills filter the course grid; the hero search (`?q=`) filters it by title/creator.
+- Mobile menu in the header; the category pills scroll horizontally on small screens.
+- Newsletter and auth forms use native validation and show a confirmation message
+  (there is no backend in this assessment).
+
+## Notes for reviewers
+
+- Images and 3D shapes were exported from the Figma file. The decorative 3D layers of the hero
+  and CTA are single exported layers positioned exactly as in the frame; cards, text and buttons
+  are real HTML.
+- The two illustrations in the "Your Path / Create & Manage" section are exported as composite
+  images, as they are artwork in the design.
+- Footer newsletter button reads **Subscribe** (the design reuses the "Search" label there).
+- Satoshi is loaded from Fontshare (it isn't available on Google Fonts); Poppins uses `next/font`.
